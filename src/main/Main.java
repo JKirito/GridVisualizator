@@ -12,11 +12,13 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		long init = new Date().getTime();
 
+		boolean formatoBinario = true;
 		final double tamañoCelda = 0.0001;
 		// TODO: definir!
 		int tamañoCeldaPx = 1;
 		String path = "/home/pruebahadoop/Documentos/DataSets/monitores/outputUNMONITOR/part-r-00000";
-//		String path = "/home/pruebahadoop/Documentos/DataSets/monitores/output (copia) RendMedio ancho00001 OK!/part-r-00000";
+		// String path =
+		// "/home/pruebahadoop/Documentos/DataSets/monitores/output (copia) RendMedio ancho00001 OK!/part-r-00000";
 		OutputGridProcessor outputProcessor = new OutputGridProcessor(path, tamañoCelda);
 		CeldaGrilla[][] grilla = outputProcessor.getCeldaGrilla();
 
@@ -25,7 +27,8 @@ public class Main {
 
 		double maxRend = outputProcessor.getRendMax();
 
-		ImageGridCreator imageCreator = new ImageGridCreator(tamañoCeldaPx, cantCeldasX, cantCeldasY, grilla, maxRend);
+		ImageGridCreator imageCreator = new ImageGridCreator(tamañoCeldaPx, cantCeldasX, cantCeldasY, grilla, maxRend,
+				formatoBinario);
 
 		// TODO!
 		String pathSave = "";

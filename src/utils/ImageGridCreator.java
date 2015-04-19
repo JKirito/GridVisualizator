@@ -16,15 +16,17 @@ public class ImageGridCreator {
 	private int cantCeldasY;
 	private CeldaGrilla[][] celdaGrilla;
 	private double maxRend;
+	private boolean formatoBinario;
 
 	public ImageGridCreator(int tamañoCeldapx, int cantCeldasX, int cantCeldasY, CeldaGrilla[][] celdaGrilla,
-			double maxRend) {
+			double maxRend, boolean binario) {
 		super();
 		this.tamañoCeldapx = tamañoCeldapx;
 		this.cantCeldasX = cantCeldasX;
 		this.cantCeldasY = cantCeldasY;
 		this.celdaGrilla = celdaGrilla;
 		this.maxRend = maxRend;
+		this.formatoBinario = binario;
 	}
 
 	public void saveImageGrilla(String pathSave, String nameSave) {
@@ -42,20 +44,25 @@ public class ImageGridCreator {
 			for (int j = 0, jpx = 0; j < cantCeldasY; j++, jpx += tamañoCeldapx) {
 				alpha = celdaGrilla[i][j] == null ? 0f : (float) celdaGrilla[i][j].getRend();
 				alpha = (float) ((alpha) / maxRend);
+
+				if (formatoBinario)
+					alpha = 1f;
+
+				// NO DEBERÍA PASAR NUNCA JAMAS
 				if (alpha > 1f) {
 					System.out.println("<" + i + "," + j + "> con REND: " + alpha);
 					alpha = 1f;
 				}
-				// por defecto fondo blanco
-				g2.setColor(Color.white);
+
+				// Por defecto fondo blanco
+				g2.setColor(Color.WHITE);
 				g2.fillRect(ipx, jpx, tamañoCeldapx, tamañoCeldapx);
 
 				// Más negro = mayor rend en esa celda
 				Color c;
 
-				// Si no había nada en la celda, poner en otro color?
+				// Si no había nada en la celda, pongo otro color
 				if (celdaGrilla[i][j] == null) {
-					alpha = 1f;
 					// Color rojo si no hay nada en la celda
 					c = new Color(1f, 0.0f, 0.0f, alpha);
 				} else {
