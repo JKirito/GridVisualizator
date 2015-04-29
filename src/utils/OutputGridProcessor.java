@@ -10,14 +10,16 @@ import entities.CeldaGrilla;
 
 public class OutputGridProcessor {
 	String pathFile;
+	boolean formatoBinario;
 	double anchoCelda;
 	int cantX;
 	int cantY;
 	double rendMax;
 
-	public OutputGridProcessor(String path, double anchoCelda) {
+	public OutputGridProcessor(String path, double anchoCelda, boolean formatoBinario) {
 		this.pathFile = path;
 		this.anchoCelda = anchoCelda;
+		this.formatoBinario = formatoBinario;
 	}
 
 	public Integer getMinFila(Set<Integer> filas) {
@@ -41,12 +43,18 @@ public class OutputGridProcessor {
 			String[] datos = datosXLinea(linea);
 			int col = Integer.valueOf(datos[0].split(",")[0]);
 			int fila = Integer.valueOf(datos[0].split(",")[1]);
-			double rend = Double.valueOf(datos[1]);
-			rendimientos.add(rend);
+			// paso fila a positivo
+			fila*=-1;
+			if (!formatoBinario) {
+				double rend = Double.valueOf(datos[1]);
+				rendimientos.add(rend);
+			}
 			filas.add(fila);
 			columnas.add(col);
 		}
-		this.rendMax = Collections.max(rendimientos);
+
+		//Si sólo importa el formato binario, masrend = 1 (no debe ser cero, en otro paso divido por esto!)
+		this.rendMax = formatoBinario ? 1 : Collections.max(rendimientos);
 
 		Integer minFila = getMinFila(filas);
 		Integer maxFila = getMaxFila(filas);
@@ -76,7 +84,8 @@ public class OutputGridProcessor {
 		for (String linea : valores) {
 			String[] datos = datosXLinea(linea);
 			int col = Integer.valueOf(datos[0].split(",")[0]) - minCol;
-			int fila = Integer.valueOf(datos[0].split(",")[1]) - minFila;
+			// paso fila a positivo
+			int fila = Integer.valueOf(datos[0].split(",")[1])*-1 - minFila;
 			double rend = Double.valueOf(datos[1]);
 			grilla[col][fila] = new CeldaGrilla(rend);
 		}

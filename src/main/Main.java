@@ -14,12 +14,25 @@ public class Main {
 
 		boolean formatoBinario = true;
 		final double tamañoCelda = 0.0001;
-		// TODO: definir!
-		int tamañoCeldaPx = 1;
-		String path = "/home/pruebahadoop/Documentos/DataSets/monitores/outputUNMONITOR/part-r-00000";
-		// String path =
+		int tamañoCeldaPx = 4;
+
+		// Path input con UN monitor SIn poda
+		// String pathInput = "/home/pruebahadoop/Documentos/DataSets/monitores/outputSinOutliersLONGLAT_SINPODA/part-r-00000";
+
+		// Path input con UN monitor (outliers,  con poda)
+		//   String pathInput = "/home/pruebahadoop/Documentos/DataSets/monitores/outputSinOutliersLONGLAT/part-r-00000";
+
+		// Path input con UN monitor (CloseGaps)
+		// String pathInput = "/home/pruebahadoop/Documentos/DataSets/monitores/CloseGapsx5/part-r-00000";
+
+		// Path input con UN monitor (Smoothing)
+		 String pathInput = "/home/pruebahadoop/Documentos/DataSets/monitores/Smoothingx5/part-r-00000";
+
+		// Path input con 20 monitores
+		// String pathInput =
 		// "/home/pruebahadoop/Documentos/DataSets/monitores/output (copia) RendMedio ancho00001 OK!/part-r-00000";
-		OutputGridProcessor outputProcessor = new OutputGridProcessor(path, tamañoCelda);
+
+		OutputGridProcessor outputProcessor = new OutputGridProcessor(pathInput, tamañoCelda, formatoBinario);
 		CeldaGrilla[][] grilla = outputProcessor.getCeldaGrilla();
 
 		int cantCeldasX = outputProcessor.getCantCeldasX();
@@ -32,7 +45,7 @@ public class Main {
 
 		// TODO!
 		String pathSave = "";
-		String nameSave = "ejemploGrilla";
+		String nameSave = "Grilla";
 
 		imageCreator.saveImageGrilla(pathSave, nameSave);
 

@@ -31,7 +31,8 @@ public class ImageGridCreator {
 
 	public void saveImageGrilla(String pathSave, String nameSave) {
 		System.out.println("Comenzando proceso y guardado de imagen...");
-		float alpha = 0;
+		// 1 es totalmente opaco. 0 es es totalmente transparente
+		float saturacion = 0;
 
 		// Constructs a BufferedImage of one of the predefined image types.
 		BufferedImage bufferedImage = new BufferedImage(cantCeldasX * tamañoCeldapx, cantCeldasY * tamañoCeldapx,
@@ -39,35 +40,43 @@ public class ImageGridCreator {
 
 		// Create a graphics which can be used to draw into the buffered image
 		Graphics2D g2 = bufferedImage.createGraphics();
-
+		Color c;
 		for (int i = 0, ipx = 0; i < cantCeldasX; i++, ipx += tamañoCeldapx) {
 			for (int j = 0, jpx = 0; j < cantCeldasY; j++, jpx += tamañoCeldapx) {
-				alpha = celdaGrilla[i][j] == null ? 0f : (float) celdaGrilla[i][j].getRend();
-				alpha = (float) ((alpha) / maxRend);
+				
+				CeldaGrilla celdaActual = celdaGrilla[i][j];
 
-				if (formatoBinario)
-					alpha = 1f;
-
-				// NO DEBERÍA PASAR NUNCA JAMAS
-				if (alpha > 1f) {
-					System.out.println("<" + i + "," + j + "> con REND: " + alpha);
-					alpha = 1f;
+				// Si es formato binario, noi importa el valor del rinde, sólo importa si hay datos o no en la celda
+				if (celdaActual != null && formatoBinario) {
+					saturacion = 1f;
+				} else {
+					saturacion = celdaActual == null ? 0f : (float) celdaActual.getRend();
+					saturacion = (float) ((saturacion) / maxRend);
 				}
 
-				// Por defecto fondo blanco
-				g2.setColor(Color.WHITE);
+				// TODO: NO DEBERÍA PASAR NUNCA JAMAS (salvo que este devolviendo mal el maxrend...)
+				if (saturacion > 1f) {
+					System.err.println("<" + i + "," + j + "> con REND: " + saturacion);
+					saturacion = 1f;
+				}
+
+				if (celdaActual == null) {
+					// Por defecto fondo verde si no hay datos!
+					g2.setColor(Color.GREEN);
+				} else {
+					// Por defecto fondo blanco si no hay datos!
+					g2.setColor(Color.WHITE);
+				}
 				g2.fillRect(ipx, jpx, tamañoCeldapx, tamañoCeldapx);
 
-				// Más negro = mayor rend en esa celda
-				Color c;
-
-				// Si no había nada en la celda, pongo otro color
-				if (celdaGrilla[i][j] == null) {
-					// Color rojo si no hay nada en la celda
-					c = new Color(1f, 0.0f, 0.0f, alpha);
-				} else {
-					c = new Color(0.0f, 0.0f, 0.0f, alpha);
-				}
+				// El tono del rinde: mientras más oscuro, mayor rinde
+//				if (celdaActual != null && celdaActual.getRend() == 0f && !formatoBinario) {
+//					// Color rojo si el rinde es cero en la celda
+//					c = new Color(1f, 0.0f, 0.0f, 1f);
+//					System.out.println("cerooooo");
+//				} else {
+					c = new Color(0.0f, 0.0f, 0.0f, saturacion);
+//				}
 
 				g2.setColor(c);
 				g2.fillRect(ipx, jpx, tamañoCeldapx, tamañoCeldapx);
