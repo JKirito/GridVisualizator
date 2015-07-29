@@ -12,7 +12,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		long init = new Date().getTime();
 
-		boolean formatoBinario = true;
+		boolean formatoBinario = false;
 		final double tamañoCelda = 0.0001;
 		int tamañoCeldaPx = 4;
 
@@ -26,7 +26,7 @@ public class Main {
 		// String pathInput = "/home/pruebahadoop/Documentos/DataSets/monitores/CloseGapsx5/part-r-00000";
 
 		// Path input con UN monitor (Smoothing)
-		 String pathInput = "/home/pruebahadoop/Documentos/DataSets/monitores/Smoothingx5/part-r-00000";
+		 String pathInput = "/home/pruebahadoop/Documentos/DataSets/monitores/SmoothingGaussianSInHuecos/part-r-00000";
 
 		// Path input con 20 monitores
 		// String pathInput =
